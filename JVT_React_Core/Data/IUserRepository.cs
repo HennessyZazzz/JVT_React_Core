@@ -11,5 +11,7 @@ namespace JVT_React_Core.Data
     {
         User Create(User user);
         User Login(LoginDtos dtos);
+        User Delete(DeleteDtos dtos);
+        User Update(UpdateDtos dtos);
     }
 }

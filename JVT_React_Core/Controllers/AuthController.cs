@@ -43,5 +43,19 @@ namespace JVT_React_Core.Controllers
             }
             return BadRequest("404");
         }
+
+        [HttpDelete("delete-user")]
+        public IActionResult DeleteUser(DeleteDtos dto)
+        {
+            _userRepository.Delete(dto);
+            return Ok();
+        }
+
+        [HttpPut("update-user")]
+        public IActionResult UpdateUser(UpdateDtos dto)
+        {
+            var updatedBook = _userRepository.Update(dto);
+            return Ok(updatedBook);
+        }
     }
 }
