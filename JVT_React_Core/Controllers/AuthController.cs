@@ -32,5 +32,16 @@ namespace JVT_React_Core.Controllers
             };
             return Created("Success", _userRepository.Create(user));
         }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginDtos dto)
+        {
+            var userr = _userRepository.Login(dto);
+            if (userr is not null)
+            {
+                return Ok(userr);
+            }
+            return BadRequest("404");
+        }
     }
 }
