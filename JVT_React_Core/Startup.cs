@@ -3,6 +3,7 @@ using JVT_React_Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,10 @@ namespace JVT_React_Core
             services.AddControllers();
             services.AddTransient<JwtService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "cliant-app/build";
+            });
             services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -52,6 +57,8 @@ namespace JVT_React_Core
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JVT_React_Core v1"));
             }
 
+            app.UseSpaStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -59,6 +66,15 @@ namespace JVT_React_Core
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "cliant-app";
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
