@@ -1,6 +1,7 @@
 ﻿using JVT_React_Core.Data;
 using JVT_React_Core.Data.Models;
 using JVT_React_Core.DTO;
+using JVT_React_Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +16,12 @@ namespace JVT_React_Core.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly JwtService _jwtService;
 
-        public AuthController(IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository, JwtService jwtService)
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -37,6 +40,8 @@ namespace JVT_React_Core.Controllers
         public IActionResult Login(LoginDtos dto)
         {
             var userr = _userRepository.Login(dto);
+            var jwt = _jwtService.Generete(userr.Id);
+            Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
             if (userr is not null)
             {
                 return Ok(userr);

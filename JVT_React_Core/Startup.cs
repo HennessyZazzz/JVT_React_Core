@@ -1,4 +1,5 @@
 using JVT_React_Core.Data;
+using JVT_React_Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace JVT_React_Core
         {
 
             services.AddControllers();
+            services.AddTransient<JwtService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddDbContext<UserDbContext>(options =>
             {
