@@ -63,5 +63,10 @@ namespace JVT_React_Core.Data
             }
             return null;
         }
+
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
     }
 }

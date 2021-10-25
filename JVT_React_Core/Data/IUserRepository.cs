@@ -13,5 +13,6 @@ namespace JVT_React_Core.Data
         User Login(LoginDtos dtos);
         User Delete(DeleteDtos dtos);
         User Update(UpdateDtos dtos);
+        User GetUserById(int id);
     }
 }
